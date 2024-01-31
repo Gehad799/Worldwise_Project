@@ -16,7 +16,7 @@ function Homepage() {
           of. Never forget your wonderful experiences, and show your friends how
           you have wandered the world.
         </h2>
-        <Link to="/app" className={styles.startTracking}>
+        <Link to="/login" className={styles.startTracking}>
           Start tracking now
         </Link>
       </section>

@@ -4,19 +4,48 @@ import Pricing from "./pages/Pricing";
 import Product from "./pages/Product";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
+import AppLayout from "./pages/AppLayout";
+import { useState } from "react";
+import { useEffect } from "react";
+import CityList from "./components/CityList";
+import CountryList from "./components/CountryList";
+import Form from "./components/Form";
+import City from "./components/City";
+import { CitiesProvider } from "./contexts/CitiesContext";
+import { AuthProvider } from "./contexts/FakeAuthContext";
+import ProtectedRoutes from "./pages/ProtectedRoutes";
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="pricing" element={<Pricing />} />
-        <Route path="product" element={<Product />} />
-        <Route path="app" element={<h1>App Layout</h1>} />
-        <Route path="login" element={<Login />} />
+    <AuthProvider>
+      <CitiesProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="product" element={<Product />} />
+            <Route
+              path="app"
+              element={
+                <ProtectedRoutes>
+                  <AppLayout />
+                </ProtectedRoutes>
+              }
+            >
+              <Route index element={<CityList />} />
+              <Route path="cities" element={<CityList />} />
+              <Route path="cities/:id" element={<City />} />
+              <Route path="countries" element={<CountryList />} />
+              <Route path="form" element={<Form />} />
+            </Route>
 
-        <Route path="/" element={<Homepage />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+            <Route path="login" element={<Login />} />
+
+            <Route path="/" element={<Homepage />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </CitiesProvider>
+    </AuthProvider>
   );
 }
 
